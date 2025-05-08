@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\kostia\\source\\repos\\TestWork\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TestWork.bundle.scp.css",
+      "PackagePath": "staticwebassets\\TestWork.8pf1pp2aco.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\kostia\\source\\repos\\TestWork\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\kostia\\source\\repos\\TestWork\\wwwroot\\summaries\\summary.html",
+      "PackagePath": "staticwebassets\\summaries\\summary.html"
+    },
+    {
+      "Id": "C:\\Users\\kostia\\source\\repos\\TestWork\\wwwroot\\summaries\\summary.txt",
+      "PackagePath": "staticwebassets\\summaries\\summary.txt"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TestWork.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TestWork.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.TestWork.props",
+      "PackagePath": "build\\TestWork.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.TestWork.props",
+      "PackagePath": "buildMultiTargeting\\TestWork.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.TestWork.props",
+      "PackagePath": "buildTransitive\\TestWork.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

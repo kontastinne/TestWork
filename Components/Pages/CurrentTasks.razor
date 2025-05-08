@@ -1,0 +1,105 @@
+﻿@page "/currentTasks"
+@using TestWork.Classes;
+@using TestWork.Enums;
+@using TestWork.Interfaces;
+@using TestWork.Services;
+@inject TaskService TaskService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<div class="centered-title">
+    <h1>ТЕКУЩИЕ ЗАДАЧИ</h1>
+</div>
+
+<div class="wrapper">
+    <div class="table-style">
+        @foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><label><input type="checkbox" @onclick="@(() => ToggleTask(type))">@type</label></th>
+                    </tr>
+                </thead>
+                @if (taskVisibility.TryGetValue(type,out bool visible) && visible)
+                {
+                    <tbody>
+                        @foreach (StatusOfTask status in Enum.GetValues(typeof(StatusOfTask)))
+                        {
+                            <tr>
+                                <th><label><input type="checkbox" @onclick="@(() => ToggleTaskStatus(type,status))">@status</label></th>
+                                @if (statusVisibility[type][status])
+                                {
+                                    <td>@tasks.Count(t => t.Type == type && t.Status == status)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+<div class="summary">
+    <p style="font-size:20px;">выбор сводки</p>
+    <button @onclick="GenerateTxtSummary">TXT</button>
+    <button type="button" @onclick="GenerateHtmlSummary">HTML</button>
+    <button @onclick="ShowSummaryOutput">ВЫВЕСТИ ТУТ</button>
+    @if(summaryOutput)
+    {
+        <p style="margin-top:50px;font-size:18px;">Багов:@tasks.Count(t =>t.Type ==TaskType.Bug)</p>
+        <p style="font-size:18px;">Фич:@tasks.Count(t => t.Type == TaskType.Feature)</p>
+        <p style="margin-bottom:50px;font-size:18px;">Рефакторов:@tasks.Count(t => t.Type == TaskType.Refactor)</p>
+    }
+</div>
+
+
+
+@code{
+    private bool summaryOutput;
+    private Dictionary<TaskType, bool> taskVisibility = new();
+    private Dictionary<TaskType,Dictionary<StatusOfTask,bool>> statusVisibility = new();
+    List<ITask> tasks = new();
+
+    protected override void OnInitialized()
+    {
+        tasks = TaskService.GetAllTasks();
+        foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
+        {
+            taskVisibility[type] = false;
+            statusVisibility[type] = new();
+            foreach (StatusOfTask status in Enum.GetValues(typeof(StatusOfTask)))
+            {
+                statusVisibility[type][status] = false;
+            }
+        }
+    }
+
+    private void ToggleTask(TaskType type) => taskVisibility[type] = !taskVisibility[type];
+
+    private void ToggleTaskStatus(TaskType type, StatusOfTask status) => statusVisibility[type][status] = !statusVisibility[type][status];
+
+    private void ShowSummaryOutput() 
+    {
+        summaryOutput = !summaryOutput; 
+    }
+
+    private void GenerateHtmlSummary()
+    {
+        ISummaryWriter writer = new HtmlSummaryWriter();
+        var link = writer.Write(tasks); // например, "/summaries/summary.html"
+        Navigation.NavigateTo(link, forceLoad: true);
+    }
+    private void GenerateTxtSummary()
+    {
+        ISummaryWriter writer = new TxtSummaryWriter();
+        var link = writer.Write(tasks); 
+        Navigation.NavigateTo(link, forceLoad: true);
+    }
+
+}
+
+
+
+

@@ -1,0 +1,5 @@
+﻿Сводка задач
+============
+BugTask: 1
+FeatureTask: 1
+RefactorTask: 1

@@ -1,0 +1,102 @@
+﻿@page "/createTask"
+@using TestWork.Services
+@using TestWork.Interfaces
+@using TestWork.Classes
+@using TestWork.Enums
+@inject TaskService TaskService
+@rendermode InteractiveServer
+
+<div class="centered-title">
+	<h1>Создать задачу</h1>
+</div>
+
+<div class="taskCreate">
+
+	<div class="taskBlock">
+		<h4>Тип</h4>
+		<select @bind="type">
+			@foreach (var t in Enum.GetValues(typeof(TaskType)))
+			{
+				<option value="@t">@t</option>
+			}
+		</select>
+	</div>
+
+	<div class="taskBlock">
+		<h4>Статус</h4>
+		<select @bind=status>
+			@foreach (var s in Enum.GetValues(typeof(StatusOfTask)))
+			{
+				<option value="@s">@s</option>
+			}
+		</select>
+	</div>
+
+	<div class="taskBlock">
+		<h4>Название</h4>
+		<input @bind="title" class="inputTitle" placeholder="Название" />
+	</div>
+
+	<button class="buttonCreate" @onclick="Create">Создать</button>
+</div>
+@if (showMessage)
+{
+	<p style="margin-right:20px;text-align:center;font-size:20px">Задача успешно создана!</p>
+
+}
+<h2 style="text-align:center; margin-top:40px;">Последние добавленные задачи:</h2>
+@if (task.Any())
+{
+	foreach (var task in task)
+	{
+		<p style="text-align:center;">@task.GetShortInfo()</p>
+	}
+}
+else
+{
+	<p style="text-align:center;">Нет созданных задач...</p>
+}
+<div style="margin-bottom:90px"></div>
+
+@code {
+	private TaskType type;
+	private StatusOfTask status;
+	private string title = String.Empty;
+	private bool showMessage = false;
+	List<ITask> task = new();
+
+	protected override void OnInitialized()
+	{
+		task = TaskService.GetAllTasks();
+
+	}
+	private void Create()
+	{
+		showMessage = true;
+		ITask task = type switch
+		{
+			TaskType.Bug => new BugTask(),
+			TaskType.Feature => new FeatureTask(),
+			TaskType.Refactor => new RefactorTask()
+		};
+		task.Type = type;
+		task.Status = status;
+		task.Title = title;
+		task.Created = DateTime.Now;
+		TaskService.AddTask(task);
+		HideMessageAsync();
+	}
+	private async void HideMessageAsync()
+	{
+		await Task.Delay(2000);
+		showMessage = false;
+		StateHasChanged();
+	}
+}
+
+
+
+
+
+
+

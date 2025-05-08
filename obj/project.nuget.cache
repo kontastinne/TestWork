@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "zr6ZeoM6QvA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kostia\\source\\repos\\TestWork\\TestWork.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kostia\\.nuget\\packages\\microsoft.aspnetcore.components.quickgrid\\9.0.4\\microsoft.aspnetcore.components.quickgrid.9.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}
